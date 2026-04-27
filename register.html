@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareVista - Create Account</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+overflow:hidden;
+}
+
+/* FLOATING BACKGROUND SHAPES */
+
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:rgba(255,255,255,0.1);
+border-radius:50%;
+top:-200px;
+left:-200px;
+filter:blur(80px);
+animation:floatBg 8s infinite alternate ease-in-out;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:500px;
+height:500px;
+background:rgba(255,255,255,0.1);
+border-radius:50%;
+bottom:-200px;
+right:-200px;
+filter:blur(80px);
+animation:floatBg 10s infinite alternate ease-in-out;
+}
+
+@keyframes floatBg{
+0%{transform:translateY(0)}
+100%{transform:translateY(40px)}
+}
+
+/* CARD */
+
+.register-card{
+width:420px;
+background:rgba(255,255,255,0.9);
+padding:45px 45px;
+border-radius:22px;
+backdrop-filter:blur(15px);
+box-shadow:0 20px 60px rgba(0,0,0,0.25);
+text-align:center;
+animation:floatCard 6s ease-in-out infinite;
+}
+
+/* FLOATING CARD */
+
+@keyframes floatCard{
+
+0%{transform:translateY(0)}
+
+50%{transform:translateY(-10px)}
+
+100%{transform:translateY(0)}
+
+}
+
+/* LOGO */
+
+.logo-box{
+width:70px;
+height:70px;
+margin:0 auto 18px auto;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+border-radius:18px;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-size:28px;
+box-shadow:0 10px 25px rgba(99,102,241,0.4);
+}
+
+.brand{
+font-size:34px;
+font-weight:700;
+color:#4f46e5;
+margin-bottom:6px;
+}
+
+.subtitle{
+color:#64748b;
+margin-bottom:35px;
+}
+
+/* FORM */
+
+.form-group{
+margin-bottom:24px;
+text-align:left;
+}
+
+.form-group label{
+font-weight:600;
+font-size:14px;
+margin-bottom:6px;
+display:block;
+color:#334155;
+}
+
+/* INPUT */
+
+.input-container{
+position:relative;
+}
+
+.input-container i{
+position:absolute;
+left:14px;
+top:50%;
+transform:translateY(-50%);
+color:#94a3b8;
+}
+
+.input-container input{
+width:100%;
+height:46px;
+padding-left:42px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+background:#f8fafc;
+font-size:14px;
+transition:0.3s;
+}
+
+.input-container input:focus{
+outline:none;
+border-color:#6366f1;
+box-shadow:0 0 0 3px rgba(99,102,241,0.15);
+}
+
+/* BUTTON */
+
+.register-btn{
+width:100%;
+height:48px;
+margin-top:12px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 12px 25px rgba(99,102,241,0.3);
+transition:0.3s;
+}
+
+.register-btn:hover{
+transform:translateY(-2px);
+}
+
+/* ERROR MESSAGE */
+
+.error-message{
+color:#ef4444;
+font-size:14px;
+text-align:center;
+margin-bottom:15px;
+padding:10px;
+background:#fee2e2;
+border-radius:8px;
+display:none;
+}
+
+.error-message.show{
+display:block;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:25px;
+font-size:14px;
+color:#475569;
+}
+
+.footer a{
+color:#6366f1;
+font-weight:600;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="register-card">
+
+<div class="logo-box">
+<i class="fa-solid fa-heart-pulse"></i>
+</div>
+
+<div class="brand">CareVista</div>
+<div class="subtitle">Create Account</div>
+
+{% if error %}
+<div class="error-message show" id="errorMessage" style="color:#ef4444;font-size:14px;text-align:center;margin-bottom:15px;padding:10px;background:#fee2e2;border-radius:8px;">
+{{ error }}
+</div>
+{% else %}
+<div class="error-message" id="errorMessage"></div>
+{% endif %}
+
+<form method="POST" action="/register" id="registerForm">
+
+<div class="form-group">
+
+<label>Email Address</label>
+
+<div class="input-container">
+<i class="fa-solid fa-envelope"></i>
+<input type="email" name="email" placeholder="name@example.com" required>
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>Password</label>
+
+<div class="input-container">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="password" placeholder="••••••••" required>
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>Confirm Password</label>
+
+<div class="input-container">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="confirm_password" placeholder="••••••••" required>
+</div>
+
+</div>
+
+<button type="submit" class="register-btn">
+Create Account <i class="fa-solid fa-arrow-right"></i>
+</button>
+
+</form>
+
+<div class="footer">
+<p>Already have an account? <a href="/login">Sign In</a></p>
+</div>
+
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const email = document.querySelector('input[name="email"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+    const errorDiv = document.getElementById('errorMessage');
+    
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'Passwords do not match';
+        errorDiv.classList.add('show');
+        return;
+    }
+    
+    if (password.length < 6) {
+        errorDiv.textContent = 'Password must be at least 6 characters';
+        errorDiv.classList.add('show');
+        return;
+    }
+    
+    errorDiv.classList.remove('show');
+    this.submit();
+});
+</script>
+
+</body>
+
+</html>

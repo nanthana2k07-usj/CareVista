@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Treatment Burden Index Analysis | CareVista</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#003b33",
+              "outline-variant": "#c2c6d1",
+              "on-primary-fixed": "#001c38",
+              "on-primary-container": "#8abcff",
+              "background": "#f7f9fe",
+              "surface-container-high": "#e5e8ed",
+              "inverse-surface": "#2d3134",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#181c1f",
+              "surface-container": "#ebeef3",
+              "on-tertiary-container": "#76c8b9",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#004b87",
+              "primary": "#003461",
+              "primary-fixed-dim": "#a3c9ff",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d7dadf",
+              "on-tertiary-fixed": "#00201b",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#424750",
+              "tertiary-fixed": "#9ff2e1",
+              "tertiary-container": "#005449",
+              "surface-container-low": "#f1f4f8",
+              "on-background": "#181c1f",
+              "on-primary-fixed-variant": "#004882",
+              "tertiary-fixed-dim": "#83d5c5",
+              "primary-fixed": "#d3e4ff",
+              "on-secondary-fixed": "#041d2e",
+              "on-tertiary-fixed-variant": "#005046",
+              "secondary-container": "#cbe2f9",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#b2c9df",
+              "secondary": "#4b6174",
+              "on-secondary-fixed-variant": "#33495b",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "outline": "#727781",
+              "inverse-primary": "#a3c9ff",
+              "surface-tint": "#27609d",
+              "surface-container-highest": "#e0e3e7",
+              "surface-bright": "#f7f9fe",
+              "secondary-fixed": "#cee5fc",
+              "on-secondary-container": "#4f6578",
+              "surface-variant": "#e0e3e7",
+              "inverse-on-surface": "#eef1f6",
+              "surface": "#f7f9fe",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      @media print {
+
+  button {
+    display: none;
+  }
+
+  nav, header, footer {
+    display: none;
+  }
+
+  body {
+    background: white;
+  }
+
+}
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+
+<!-- Main Content Canvas -->
+<main class="min-h-screen flex justify-center items-start">
+<!-- TopAppBar -->
+
+<div class="p-8 max-w-7xl mx-auto space-y-8">
+<!-- Hero Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-4xl font-extrabold text-primary font-headline tracking-tight">Treatment Burden Index</h2>
+<p class="text-on-surface-variant text-lg mt-1">Evaluate Treatment Complexity and Patient Burden</p>
+</div>
+<button onclick="printReport()" class="flex items-center gap-2 bg-surface-container-highest text-primary font-semibold px-5 py-2.5 rounded-xl hover:bg-surface-bright transition-all active:scale-95 shadow-sm">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+<span>Download Report</span>
+</button>
+</section>
+<!-- Main Layout: Asymmetric Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Inputs & Context -->
+<div class="lg:col-span-7 space-y-8">
+<!-- Patient Context Card -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="patient_list" style="font-variation-settings: 'FILL' 1;">patient_list</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Detected Disease</p>
+<h3 class="text-xl font-bold text-primary">{{ disease }}</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 cursor-help hover:text-primary transition-colors" data-icon="info">info</span>
+</div>
+<!-- Input Form Card -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/15 space-y-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="edit_note">edit_note</span>
+<h3 class="text-xl font-bold text-primary">Analysis Parameters</h3>
+</div>
+<div class="space-y-6">
+<div class="group">
+<label class="block text-sm font-bold text-slate-600 mb-2 group-focus-within:text-primary transition-colors">Current Treatment Plan</label>
+<input id="treatment" class="w-full bg-surface-container-highest border-0 rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface" placeholder="e.g., surgery, multiple medications" type="text"/>
+</div>
+<div class="group">
+<label class="block text-sm font-bold text-slate-600 mb-2 group-focus-within:text-primary transition-colors">Lifestyle Requirements</label>
+<textarea id="lifestyle" class="w-full bg-surface-container-highest border-0 rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all text-on-surface resize-none" placeholder="e.g., strict diet, daily exercise" rows="3"></textarea>
+</div>
+</div>
+<button id="analyzeBtn" class="w-full bg-primary text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-primary-container transition-all active:scale-[0.98] shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="text-lg">Analyze Burden</span>
+</button>
+</div>
+<!-- Advice Section (Placed here for visual balance) -->
+<div class="bg-surface-container-low p-8 rounded-xl border border-primary/5">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<h3 class="text-xl font-bold text-primary">Clinical Management Advice</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg flex gap-3">
+<span class="material-symbols-outlined text-tertiary mt-1" data-icon="check_circle">check_circle</span>
+<p class="text-sm leading-relaxed text-on-surface-variant">Consolidate medication timing to reduce daily "pill-burden" episodes.</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex gap-3">
+<span class="material-symbols-outlined text-tertiary mt-1" data-icon="check_circle">check_circle</span>
+<p class="text-sm leading-relaxed text-on-surface-variant">Introduce telehealth check-ins to minimize travel fatigue.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Results & Analysis -->
+<div class="lg:col-span-5 space-y-8" id="resultsSection" style="display:none;">
+<!-- Result Display Card (Active State) -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/15 relative overflow-hidden">
+<!-- Background Accents -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/20 rounded-bl-full -mr-16 -mt-16"></div>
+<div class="relative">
+<div class="flex justify-between items-start mb-8">
+<div>
+<p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Burden Score</p>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-extrabold text-primary font-headline tracking-tighter">68</span>
+<span class="text-2xl font-bold text-slate-400">/ 100</span>
+</div>
+</div>
+<div class="px-4 py-2 bg-error-container rounded-full text-on-error-container text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+                                    Moderate Burden
+                                </div>
+</div>
+<div class="space-y-3 mb-10">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-slate-500">Intensity Gauge</span>
+<span class="text-on-secondary-container">68% Capacity</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden p-1">
+<div class="h-full bg-gradient-to-r from-secondary to-error rounded-full" style="width: 68%"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-400 uppercase font-bold tracking-tighter">
+<span>Low</span>
+<span>Moderate</span>
+<span>Critical</span>
+</div>
+</div>
+<div class="space-y-6">
+<h4 class="text-sm font-extrabold text-primary uppercase tracking-widest border-b border-slate-100 pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="clinical_notes">clinical_notes</span>
+                                    Clinical Rationales
+                                </h4>
+<ul class="space-y-4">
+<li class="flex items-start gap-4 p-3 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="w-2 h-2 rounded-full bg-error mt-2 shadow-[0_0_8px_rgba(186,26,26,0.5)]"></div>
+<p class="text-on-surface-variant font-medium text-sm leading-relaxed">Requires high frequency of daily medication (&gt;5 doses/day)</p>
+</li>
+<li class="flex items-start gap-4 p-3 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="w-2 h-2 rounded-full bg-error mt-2 shadow-[0_0_8px_rgba(186,26,26,0.5)]"></div>
+<p class="text-on-surface-variant font-medium text-sm leading-relaxed">Significant dietary restrictions needed (low sodium/fluid restricted)</p>
+</li>
+<li class="flex items-start gap-4 p-3 hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="w-2 h-2 rounded-full bg-error mt-2 shadow-[0_0_8px_rgba(186,26,26,0.5)]"></div>
+<p class="text-on-surface-variant font-medium text-sm leading-relaxed">Frequent follow-up visits expected (Bi-weekly monitoring required)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl mt-4">
+  <h4 class="text-lg font-bold text-primary mb-2">
+    Suggested Alternate Treatment
+  </h4>
+
+  <div id="alternate-treatment">
+    <p class="text-slate-500">No suggestions yet</p>
+  </div>
+</div>
+<!-- Secondary Metric Card -->
+
+</div>
+</div>
+</div>
+</main>
+
+<script>
+document.getElementById("analyzeBtn").addEventListener("click", function () {
+
+  let disease = "{{ disease }}".toLowerCase();
+  let treatment = document.getElementById("treatment").value.toLowerCase();
+  let lifestyle = document.getElementById("lifestyle").value.toLowerCase();
+
+  let score = 0;
+  let reasons = [];
+  let alternate = [];
+
+  // =========================
+  // 🧠 DISEASE CONFIG (SCALABLE)
+  // =========================
+  const diseaseData = {
+
+  "pneumonia": {
+    baseScore: 25,
+    reasons: [
+      "Lung infection can cause breathing difficulty and fatigue",
+      "Recovery may require consistent medication and rest",
+      "Exposure to cold or polluted air can worsen symptoms"
+
+    ],
+    alternate: [
+      "Take antibiotics exactly as prescribed without skipping doses",
+      "Drink warm fluids and stay well hydrated",
+      "Get enough rest and avoid cold or polluted environments",
+      "Consider using a humidifier to ease breathing",
+      "Follow up with your doctor if symptoms worsen or do not improve",
+      "Avoid smoking and secondhand smoke exposure during recovery",
+      "Practice good hand hygiene to prevent reinfection"
+    ]
+  },
+
+  "dengue": {
+    baseScore: 30,
+    reasons: [
+      "High fever and weakness can affect daily activities",
+      "Platelet levels need monitoring during recovery",
+      "Pain and fatigue can be significant during illness"
+    ],
+    alternate: [
+      "Drink plenty of fluids like water, ORS, and juices",
+      "Take complete bed rest until recovery",
+      "Avoid self-medication, especially painkillers without doctor advice",
+      "Use mosquito repellents and nets to prevent further bites",
+      "Monitor for warning signs like severe abdominal pain, persistent vomiting, or bleeding",
+      "Seek immediate medical care if warning signs develop",
+      "Maintain a nutritious diet to support recovery"
+    ]
+  },
+
+  "heart": {
+    baseScore: 45,
+    reasons: [
+      "Heart conditions require long-term medication and monitoring",
+      "Lifestyle changes are important for stable health",
+      "Symptoms can be severe and affect quality of life"
+    ],
+    alternate: [
+      "Take medicines at the same time every day",
+      "Reduce salt intake gradually in your diet",
+      "Follow light physical activity as advised by your doctor",
+      "Attend regular follow-up appointments for monitoring",
+      "Use reminders to ensure medication adherence",
+      "Consider joining a cardiac rehabilitation program for support",
+      "Avoid smoking, alcohol, and high-fat foods to reduce heart strain"
+    ]
+  },
+
+  "asthma": {
+    baseScore: 20,
+    reasons: [
+      "Breathing issues can be triggered by environmental factors",
+      "Regular medication is needed to prevent attacks",
+      "Symptoms can be unpredictable and require quick response"
+    ],
+    alternate: [
+      "Use inhalers regularly as prescribed",
+      "Avoid dust, smoke, and cold air exposure",
+      "Practice breathing exercises daily",
+      "Identify and avoid personal asthma triggers",
+      "Have an action plan in place for asthma attacks",
+      "Attend regular check-ups to monitor lung function",
+      "Consider allergy testing to identify specific triggers"
+    ]
+  },
+
+  "diabetes": {
+    baseScore: 35,
+    reasons: [
+      "Blood sugar levels need continuous monitoring",
+      "Diet and medication must be balanced daily",
+      "Complications can arise if not managed properly"
+    ],
+    alternate: [
+      "Follow a balanced diet instead of very strict restrictions",
+      "Check blood sugar levels regularly",
+      "Take medicines or insulin on time",
+      "Incorporate moderate physical activity as advised",
+      "Attend regular medical appointments for monitoring",
+      "Use a diabetes management app to track your health",
+      "Educate yourself about signs of high or low blood sugar and how to respond"
+
+    ]
+  },
+
+  "flu": {
+    baseScore: 10,
+    reasons: [
+      "Short-term illness with mild symptoms",
+      "Usually resolves with basic care",
+      "Overuse of medications can lead to unnecessary side effects"
+
+    ],
+    alternate: [
+      "Take adequate rest",
+      "Drink warm fluids frequently",
+      "Use simple medications only if needed",
+      "Consider using a humidifier to ease breathing",
+      "Practice good hand hygiene to prevent spreading the virus",
+      "Avoid close contact with others until symptoms improve",
+      "Use over-the-counter cold remedies cautiously and only as needed"
+    ]
+  },
+
+  "tuberculosis": {
+    baseScore: 55,
+    reasons: [
+      "Requires long-term continuous medication",
+      "Missing doses can affect recovery",
+      "Infection control measures are necessary to prevent spread"
+
+    ],
+    alternate: [
+      "Take medicines regularly without skipping doses",
+      "Follow the full treatment course strictly",
+      "Attend all follow-up appointments",
+      "Avoid close contact with others until treatment is underway and effective",
+      "Maintain good nutrition to support recovery",
+      "Practice good respiratory hygiene to prevent spreading the infection",
+      "Consider joining a support group for TB patients to share experiences and advice"
+    ]
+  },
+
+  "kidney": {
+    baseScore: 65,
+    reasons: [
+      "Requires regular monitoring and treatment support",
+      "Diet and fluid intake need strict control",
+      "Symptoms can be severe and affect daily life"
+    ],
+    alternate: [
+      "Follow fluid intake instructions carefully",
+      "Stick to prescribed medication schedule",
+      "Discuss home-based care options if available",
+      "Attend regular appointments for kidney function monitoring",
+      "Use a medication reminder system to ensure adherence",
+      "Consider dietary counseling to manage restrictions effectively",
+      "Seek support from family or caregivers to assist with treatment management"
+    ]
+  },
+
+  "hypertension": {
+    baseScore: 30,
+    reasons: [
+      "Requires long-term medication and monitoring",
+      "Lifestyle plays a key role in control",
+      "Symptoms can be silent but complications are serious"
+    ],
+    alternate: [
+      "Reduce salt intake gradually",
+      "Exercise regularly (like walking)",
+      "Take medicines daily without missing doses",
+      "Attend regular check-ups to monitor blood pressure",
+      "Use a home blood pressure monitor for regular tracking",
+      "Consider stress-reduction techniques like meditation or yoga",
+      "Avoid smoking, alcohol, and high-fat foods to reduce heart strain"
+    ]
+  },
+
+  "covid": {
+    baseScore: 40,
+    reasons: [
+      "Requires isolation and regular monitoring",
+      "Symptoms may vary in severity",
+      "Recovery can be prolonged and affect daily routine"
+
+    ],
+    alternate: [
+      "Stay isolated and take proper rest",
+      "Monitor oxygen levels regularly",
+      "Avoid unnecessary medications unless prescribed",
+      "Use paracetamol for fever and pain relief",
+      "Stay hydrated with water and fluids",
+      "Seek medical care if symptoms worsen or new symptoms develop",
+      "Follow public health guidelines to prevent spreading the virus"
+    ]
+  },
+
+  "malaria": {
+    baseScore: 35,
+    reasons: [
+      "Causes fever and weakness affecting daily routine",
+      "Medication course must be completed fully",
+      "Prevention of mosquito bites is crucial during recovery"
+
+    ],
+    alternate: [
+      "Complete the full course of prescribed medicines",
+      "Stay hydrated and take rest",
+      "Avoid missing doses",
+      "Use mosquito repellents and nets to prevent further bites",
+      "Monitor for any signs of complications like severe headache, confusion, or difficulty breathing",
+      "Seek immediate medical care if warning signs develop",
+      "Maintain a nutritious diet to support recovery"
+    ]
+  },
+
+  "typhoid": {
+    baseScore: 40,
+    reasons: [
+      "Requires consistent medication and proper diet",
+      "Weakness and fatigue are common",
+      "Infection control measures are necessary to prevent spread"
+    ],
+    alternate: [
+      "Eat light, soft, and easily digestible food",
+      "Complete antibiotic course fully",
+      "Drink clean and safe water",
+      "Practice good hand hygiene to prevent spreading the infection",
+      "Avoid close contact with others until treatment is underway and effective",
+      "Maintain good nutrition to support recovery",
+      "Seek support from family or caregivers to assist with treatment management"
+
+    ]
+  },
+
+  "bronchitis": {
+    baseScore: 25,
+    reasons: [
+      "Breathing discomfort may affect daily activities",
+      "Cold exposure can worsen symptoms",
+      "Medication may be needed for symptom relief"
+    ],
+    alternate: [
+      "Avoid cold air and dusty environments",
+      "Use steam inhalation for relief",
+      "Take medicines regularly as prescribed",
+      "Consider using a humidifier to ease breathing",
+      "Practice good hand hygiene to prevent spreading the infection",
+      "Avoid close contact with others until symptoms improve",
+      "Use over-the-counter cold remedies cautiously and only as needed"
+    ]
+  },
+
+  "allergy": {
+    baseScore: 15,
+    reasons: [
+      "Triggered by environmental or food factors",
+      "Symptoms can recur frequently",
+      "Medication may be needed to control symptoms"
+    ],
+    alternate: [
+      "Identify and avoid triggers",
+      "Use antihistamines if needed",
+      "Maintain a clean environment",
+      "Consider allergy testing to identify specific triggers",
+      "Use air purifiers to reduce indoor allergens",
+      "Keep windows closed during high pollen seasons",
+      "Wash bedding and curtains regularly to reduce dust mites"
+    ]
+  },
+
+  "anemia":{
+    baseScore: 25,
+    reasons: [
+      "Low hemoglobin can cause fatigue and weakness",
+      "Daily routine may feel tiring",
+      "Dietary changes may be needed to improve iron levels"
+    ],
+    alternate: [
+      "Eat iron-rich foods like leafy greens",
+      "Take supplements if prescribed",
+      "Get adequate rest",
+      "Consider vitamin C intake to enhance iron absorption",
+      "Avoid tea and coffee with meals as they can inhibit iron absorption",
+      "Attend regular check-ups to monitor hemoglobin levels",
+      "Seek support from family or caregivers to assist with treatment management"
+    ],
+  },
+    "food poisoning": {
+      baseScore: 20,
+      reasons: [
+        "Causes gastrointestinal symptoms affecting daily routine",
+        "Hydration and rest are crucial for recovery",
+        "Medication may be needed for symptom relief"
+      ],
+      alternate: [
+        "Drink plenty of fluids to stay hydrated",
+        "Eat bland foods like bananas, rice, and toast",
+        "Avoid dairy and fatty foods until recovery",
+        "Use over-the-counter medications cautiously and only as needed",
+        "Practice good hand hygiene to prevent spreading the infection",
+        "Avoid close contact with others until symptoms improve",
+        "Seek medical care if symptoms worsen or new symptoms develop"
+      ],
+    },
+      "migraine": {
+        baseScore: 30,
+        reasons: [
+          "Severe headaches can disrupt daily activities",
+          "Triggers may require lifestyle adjustments",
+          "Medication may be needed for symptom control"
+        ],
+        alternate: [
+          "Identify and avoid migraine triggers",
+          "Use prescribed medications for relief",
+          "Maintain a regular sleep schedule",
+          "Consider stress-reduction techniques like meditation or yoga",
+          "Stay hydrated and eat regular meals",
+          "Attend regular check-ups to monitor migraine patterns",
+          "Seek support from family or caregivers to assist with treatment management"
+        ],
+      },
+        "depression": {
+          baseScore: 50,
+          reasons: [
+            "Affects motivation and energy levels",
+            "Treatment may require consistent medication and therapy",
+            "Symptoms can be severe and impact quality of life"
+          ],
+          alternate: [
+            "Take medications as prescribed without skipping doses",
+            "Attend therapy sessions regularly",
+            "Engage in light physical activity as advised",
+            "Seek support from family or caregivers to assist with treatment management",
+            "Consider joining a support group for individuals with depression",
+            "Practice stress-reduction techniques like meditation or yoga",
+            "Maintain a healthy diet and sleep schedule to support mental health"
+          ],
+        },
+          "anxiety": {
+            baseScore: 40,
+            reasons: [
+              "Affects daily functioning and quality of life",
+              "Treatment may require consistent medication and therapy",
+              "Symptoms can be severe and impact social interactions"
+            ],
+            alternate: [
+              "Take medications as prescribed without skipping doses",
+              "Attend therapy sessions regularly",
+              "Practice stress-reduction techniques like meditation or yoga",
+              "Seek support from family or caregivers to assist with treatment management",
+              "Consider joining a support group for individuals with anxiety",
+              "Maintain a healthy diet and sleep schedule to support mental health",
+              "Avoid caffeine and other stimulants that can worsen anxiety symptoms"
+            ]
+          },
+          "arthritis": {
+            baseScore: 35,
+            reasons: [
+              "Joint pain and stiffness can affect mobility",
+              "Treatment may require consistent medication and physical therapy",
+              "Symptoms can be severe and impact daily activities"
+            ],
+            alternate: [
+              "Take medications as prescribed without skipping doses",
+              "Attend physical therapy sessions regularly",
+              "Engage in light physical activity as advised to maintain joint function",
+              "Seek support from family or caregivers to assist with treatment management",
+              "Consider joining a support group for individuals with arthritis",
+              "Use heat or cold therapy to manage symptoms at home",
+              "Maintain a healthy weight to reduce joint strain"
+            ]
+          },
+  };
+
+
+
+  // =========================
+  // 🔍 MATCH DISEASE
+  // =========================
+  let diseaseKey = Object.keys(diseaseData).find(d =>
+    disease.includes(d)
+  );
+
+  if (diseaseKey) {
+    score += diseaseData[diseaseKey].baseScore;
+    reasons.push(...diseaseData[diseaseKey].reasons);
+    alternate.push(...diseaseData[diseaseKey].alternate);
+  }
+
+  // =========================
+  // 💊 TREATMENT LOGIC
+  // =========================
+  if (treatment.includes("surgery")) {
+    score += 50;
+    reasons.push("Surgical intervention increases recovery burden");
+    alternate.push("Consider non-invasive or medication-based alternatives");
+  }
+
+  if (treatment.includes("multiple") || treatment.includes("many")) {
+    score += 30;
+    reasons.push("Polypharmacy increases adherence difficulty");
+    alternate.push("Use combination drugs to reduce pill count");
+  }
+
+  if (treatment.includes("injection")) {
+    score += 20;
+    reasons.push("Frequent injections increase dependency and discomfort");
+  }
+  if (treatment.includes("frequent")) {
+    score += 15;
+    reasons.push("Frequent dosing increases daily management complexity");
+  }
+  if (treatment.includes("long-term")) {
+    score += 15;
+    reasons.push("Long-term treatment can lead to fatigue and burnout");
+  }
+  if (treatment.includes("intensive")) {
+    score += 20;
+    reasons.push("Intensive treatment regimens can be overwhelming");
+  }
+  if (treatment.includes("complex")) {
+    score += 25;
+    reasons.push("Complex treatment plans require more effort and organization");
+  } 
+  if (treatment.includes("strict")) {
+    score += 20;
+    reasons.push("Strict treatment protocols can reduce flexibility and increase stress");
+  }
+  if (treatment.includes("daily")) {
+    score += 10;
+    reasons.push("Daily treatment requirements can be burdensome over time");
+  }
+  if (treatment.includes("long-term") || treatment.includes("chronic")) {
+    score += 20;
+    reasons.push("Chronic conditions require ongoing management and can lead to fatigue");
+  }
+  if (treatment.includes("high-risk")) {
+    score += 30;
+    reasons.push("High-risk treatments require close monitoring and can increase anxiety");
+  }
+  if (treatment.includes("hospitalization")) {
+    score += 40;
+    reasons.push("Hospital stays can disrupt daily life and increase stress");
+  }
+  if (treatment.includes("side effects")) {
+    score += 25;
+    reasons.push("Treatment side effects can add to the overall burden");
+  }
+  if (treatment.includes("monitoring")) {
+    score += 15;
+    reasons.push("Frequent monitoring can be time-consuming and stressful");
+  }
+  if (treatment.includes("rehabilitation")) {
+    score += 20;
+    reasons.push("Rehabilitation requires consistent effort and can be exhausting");
+  }
+  if (treatment.includes("lifestyle changes")) {
+    score += 15;
+    reasons.push("Significant lifestyle changes can be difficult to maintain");
+  }
+  if (treatment.includes("dietary restrictions")) {
+    score += 20;
+    reasons.push("Dietary restrictions can limit food choices and social eating");
+  }
+  if (treatment.includes("physical therapy")) {
+    score += 20;
+    reasons.push("Physical therapy requires regular sessions and can be physically demanding");
+  }
+  if (treatment.includes("psychological therapy")) {
+    score += 15;
+    reasons.push("Psychological therapy requires emotional effort and time commitment");
+  }
+  if (treatment.includes("medication")) {
+    score += 10;
+    reasons.push("Medication management can be complex and time-consuming");
+  }
+  if (treatment.includes("non-compliance")) {
+    score += 30;
+    reasons.push("Non-compliance with treatment can lead to worse outcomes and increased burden");
+    alternate.push("Use reminders and support systems to improve adherence");
+  }
+  if (treatment.includes("complications")) {
+    score += 25;
+    reasons.push("Treatment complications can increase healthcare needs and stress");
+    alternate.push("Work closely with your healthcare team to manage and prevent complications");
+  }
+  if (treatment.includes("follow-up")) {
+    score += 15;
+    reasons.push("Frequent follow-up visits can be time-consuming and disruptive");
+    alternate.push("Consider telehealth options for follow-up care to reduce travel burden");
+  }
+  if (treatment.includes("intensive monitoring")) {
+    score += 20;
+    reasons.push("Intensive monitoring can be stressful and time-consuming");
+    alternate.push("Use home monitoring devices to reduce clinic visits");
+  }
+  if (treatment.includes("complex regimen")) {
+    score += 25;
+    reasons.push("Complex regimens require careful organization and can lead to confusion");
+    alternate.push("Simplify your regimen with the help of your healthcare provider");
+  }
+  if (treatment.includes("high-maintenance")) {
+    score += 30;
+    reasons.push("High-maintenance treatments require constant attention and can be overwhelming");
+    alternate.push("Seek support from family or caregivers to assist with treatment management");
+  }
+  if (treatment.includes("long-term commitment")) {
+    score += 20;
+    reasons.push("Long-term commitment to treatment can lead to fatigue and burnout");
+    alternate.push("Set realistic goals and take breaks when needed to manage fatigue");
+  }
+  if (treatment.includes("strict adherence")) {
+    score += 25;
+    reasons.push("Strict adherence requirements can increase stress and reduce flexibility");
+    alternate.push("Work with your healthcare provider to find a balance that works for you");
+  }
+  if (treatment.includes("multiple medications")) {
+    score += 30;
+    reasons.push("Managing multiple medications can be complex and increase the risk of errors");
+    alternate.push("Use a pill organizer and set reminders to improve medication management");
+  }
+  if (treatment.includes("invasive procedures")) {
+    score += 40;
+    reasons.push("Invasive procedures can be physically and emotionally taxing");
+    alternate.push("Discuss less invasive options with your healthcare provider if available");
+  }
+  if (treatment.includes("high-risk medications")) {
+    score += 30;
+    reasons.push("High-risk medications require careful monitoring and can increase anxiety");
+    alternate.push("Work closely with your healthcare team to manage and monitor high-risk medications");
+  }
+  if (treatment.includes("hospital stays")) {
+    score += 40;
+    reasons.push("Hospital stays can disrupt daily life and increase stress");
+    alternate.push("Consider outpatient treatment options if appropriate for your condition");
+  }
+  if (treatment.includes("side effects management")) {
+    score += 25;
+    reasons.push("Managing side effects can add to the overall burden of treatment");
+    alternate.push("Communicate with your healthcare provider about side effects to find effective management strategies");
+  }
+  if (treatment.includes("rehabilitation program")) {
+    score += 20;
+    reasons.push("Rehabilitation programs require consistent effort and can be exhausting");
+    alternate.push("Seek support from family or caregivers to assist with rehabilitation efforts");
+  }
+  if (treatment.includes("lifestyle modifications")) {
+    score += 15;
+    reasons.push("Lifestyle modifications can be difficult to maintain and require ongoing effort");
+    alternate.push("Start with small changes and gradually build up to more significant modifications for better adherence");
+  }
+  if (treatment.includes("dietary changes")) {
+    score += 20;
+    reasons.push("Dietary changes can limit food choices and social eating opportunities");
+    alternate.push("Work with a dietitian to find enjoyable and sustainable dietary options that meet your treatment needs");
+  }
+  if (treatment.includes("physical therapy sessions")) {
+    score += 20;
+    reasons.push("Regular physical therapy sessions can be time-consuming and physically demanding");
+    alternate.push("Incorporate home exercises recommended by your physical therapist to reduce the need for frequent clinic visits");
+  }
+  if (treatment.includes("psychological therapy sessions")) {
+    score += 15;
+    reasons.push("Psychological therapy requires emotional effort and time commitment");
+    alternate.push("Consider online therapy options for more flexible scheduling");
+  }
+  if (treatment.includes("medication management")) {
+    score += 10;
+    reasons.push("Medication management can be complex and time-consuming");
+    alternate.push("Use a medication management app to track your medications and set reminders");
+  }
+  if (treatment.includes("non-compliance issues")) {
+    score += 30;
+    reasons.push("Non-compliance with treatment can lead to worse outcomes and increased burden");
+    alternate.push("Use reminders, support systems, and positive reinforcement to improve adherence");
+  }
+  if (treatment.includes("complication risks")) {
+    score += 25;
+    reasons.push("Treatment complications can increase healthcare needs and stress");
+    alternate.push("Work closely with your healthcare team to manage and prevent complications");
+  }
+  if (treatment.includes("frequent follow-ups")) {
+    score += 15;
+    reasons.push("Frequent follow-up visits can be time-consuming and disruptive");
+    alternate.push("Consider telehealth options for follow-up care to reduce travel burden");
+  }
+  if (treatment.includes("intensive monitoring requirements")) {
+    score += 20;
+    reasons.push("Intensive monitoring can be stressful and time-consuming");
+    alternate.push("Use home monitoring devices to reduce clinic visits");
+  }
+  if (treatment.includes("complex regimen requirements")) {
+    score += 25;
+    reasons.push("Complex regimens require careful organization and can lead to confusion");
+    alternate.push("Simplify your regimen with the help of your healthcare provider");
+  }
+  if (treatment.includes("high-maintenance treatment")) {
+    score += 30;
+    reasons.push("High-maintenance treatments require constant attention and can be overwhelming");
+    alternate.push("Seek support from family or caregivers to assist with treatment management");
+  }
+
+
+
+  // =========================
+  // 🧘 LIFESTYLE LOGIC
+  // =========================
+  if (lifestyle.includes("strict")) {
+    score += 10;
+    reasons.push("Strict lifestyle reduces long-term compliance");
+    alternate.push("Adopt gradual lifestyle modifications");
+  }
+
+  if (lifestyle.includes("daily")) {
+    score += 10;
+    reasons.push("Daily effort increases fatigue burden");
+  }
+  if (lifestyle.includes("exercise")) {
+    score += 5;
+    reasons.push("Exercise requirements can be difficult to maintain");
+    alternate.push("Incorporate light physical activity that you enjoy to improve adherence");
+  }
+  if (lifestyle.includes("diet")) {
+    score += 10;
+    reasons.push("Dietary restrictions can limit food choices and social eating opportunities");
+    alternate.push("Work with a dietitian to find enjoyable and sustainable dietary options that meet your lifestyle needs");
+  }
+  if  (lifestyle.includes("stress")) {
+    score += 10;
+    reasons.push("High stress levels can worsen symptoms and reduce treatment effectiveness");
+    alternate.push("Practice stress-reduction techniques like meditation, yoga, or deep breathing exercises to improve overall well-being");
+  }
+  if (lifestyle.includes("work")) {
+    score += 10;
+    reasons.push("Work-related stress and time constraints can impact treatment adherence");
+    alternate.push("Communicate with your employer about your health needs and explore flexible work arrangements if possible");
+  }
+  if (lifestyle.includes("social")) {
+    score += 5;
+    reasons.push("Social obligations can interfere with treatment schedules");
+    alternate.push("Plan social activities around your treatment schedule to maintain social connections while managing your health");
+  }
+  if (lifestyle.includes("sleep")) {
+    score += 10;
+    reasons.push("Poor sleep can worsen symptoms and reduce treatment effectiveness");
+    alternate.push("Establish a regular sleep schedule and create a relaxing bedtime routine to improve sleep quality");
+  }
+  if (lifestyle.includes("hygiene")) {
+    score += 5;
+    reasons.push("Poor hygiene can increase the risk of infections and complications");
+    alternate.push("Maintain good personal hygiene practices to support overall health and reduce the risk of complications");
+  }
+  if (lifestyle.includes("support")) {
+    score -= 10;
+    reasons.push("Having a strong support system can reduce the burden of treatment");
+    alternate.push("Seek support from family, friends, or support groups to help manage treatment and provide emotional support");
+  }
+  if (lifestyle.includes("positive")) {
+    score -= 10;
+    reasons.push("A positive outlook can improve treatment adherence and outcomes");
+    alternate.push("Engage in activities that promote a positive mindset, such as hobbies, social interactions, or mindfulness practices");
+  }
+  if (lifestyle.includes("healthy")) {
+    score -= 10;
+    reasons.push("Healthy lifestyle habits can reduce the burden of treatment");
+    alternate.push("Continue to maintain healthy habits such as balanced nutrition, regular physical activity, and adequate sleep to support your treatment and overall well-being");
+  }if (lifestyle.includes("active")) {
+    score -= 10;
+    reasons.push("An active lifestyle can improve treatment adherence and outcomes");
+    alternate.push("Incorporate regular physical activity that you enjoy to support your treatment and overall health");
+  }
+  if (lifestyle.includes("engaged")) {
+    score -= 10;
+    reasons.push("Engagement in social and recreational activities can improve quality of life and reduce treatment burden");
+    alternate.push("Plan social and recreational activities that you enjoy to maintain a sense of normalcy and improve your overall well-being while managing your treatment");
+  }
+  if (lifestyle.includes("resilient")) {
+    score -= 10;
+    reasons.push("Resilience can help you cope with the challenges of treatment and improve outcomes");
+    alternate.push("Develop resilience through stress-reduction techniques, seeking support, and maintaining a positive outlook to better manage the challenges of treatment");
+  }
+  if (lifestyle.includes("compliant")) {
+    score -= 10;
+    reasons.push("Compliance with treatment can reduce the burden and improve outcomes");
+    alternate.push("Use reminders, support systems, and positive reinforcement to maintain compliance with your treatment plan");
+  }
+  if (lifestyle.includes("motivated")) {
+    score -= 10;
+    reasons.push("Motivation can improve treatment adherence and outcomes");
+    alternate.push("Set achievable goals and celebrate small victories to maintain motivation throughout your treatment journey");
+  }
+  if (lifestyle.includes("informed")) {
+    score -= 10;
+    reasons.push("Being informed about your condition and treatment can reduce anxiety and improve adherence");
+    alternate.push("Educate yourself about your condition and treatment options to feel more empowered and in control of your health");
+  }
+  if (lifestyle.includes("proactive")) {
+    score -= 10;
+    reasons.push("Being proactive in managing your health can reduce the burden of treatment");
+    alternate.push("Take an active role in your healthcare by communicating with your providers, seeking support, and making informed decisions about your treatment");
+  }
+  if (lifestyle.includes("adaptable")) {
+    score -= 10;
+    reasons.push("Adaptability can help you adjust to treatment changes and reduce stress");
+    alternate.push("Cultivate adaptability by being open to change and finding new ways to manage your treatment as needed");
+  }
+  if (lifestyle.includes("optimistic")) {
+    score -= 10;
+    reasons.push("Optimism can improve treatment adherence and outcomes");
+    alternate.push("Focus on the positive aspects of your treatment journey and maintain hope for a successful outcome to help improve your overall well-being");
+  }
+  if (lifestyle.includes("supportive")) {
+    score -= 10;
+    reasons.push("Having a supportive network can reduce the burden of treatment");
+    alternate.push("Seek support from family, friends, or support groups to help manage treatment and provide emotional support");
+  }
+  if (lifestyle.includes("balanced")) {
+    score -= 10;
+    reasons.push("A balanced lifestyle can improve treatment adherence and outcomes");
+    alternate.push("Strive for a balanced lifestyle that includes healthy habits, social connections, and enjoyable activities to support your treatment and overall well-being");
+  }
+  if (lifestyle.includes("mindful")) {
+    score -= 10;
+    reasons.push("Mindfulness can help reduce stress and improve treatment adherence");
+    alternate.push("Practice mindfulness techniques such as meditation, deep breathing, or yoga to help manage stress and improve your overall well-being while undergoing treatment");
+  }
+  if (lifestyle.includes("engaged")) {
+    score -= 10;
+    reasons.push("Engagement in social and recreational activities can improve quality of life and reduce treatment burden");
+    alternate.push("Plan social and recreational activities that you enjoy to maintain a sense of normalcy and improve your overall well-being while managing your treatment");
+  }
+  if (lifestyle.includes("resilient")) {
+    score -= 10;
+    reasons.push("Resilience can help you cope with the challenges of treatment and improve outcomes");
+    alternate.push("Develop resilience through stress-reduction techniques, seeking support, and maintaining a positive outlook to better manage the challenges of treatment");
+  }
+  if (lifestyle.includes("compliant")) {
+    score -= 10;
+    reasons.push("Compliance with treatment can reduce the burden and improve outcomes");
+    alternate.push("Use reminders, support systems, and positive reinforcement to maintain compliance with your treatment plan");
+  }
+  if (lifestyle.includes("motivated")) {
+    score -= 10;
+    reasons.push("Motivation can improve treatment adherence and outcomes");
+    alternate.push("Set achievable goals and celebrate small victories to maintain motivation throughout your treatment journey");
+  }
+  if (lifestyle.includes("informed")) {
+    score -= 10;
+    reasons.push("Being informed about your condition and treatment can reduce anxiety and improve adherence");
+    alternate.push("Educate yourself about your condition and treatment options to feel more empowered and in control of your health");
+  }
+  if (lifestyle.includes("proactive")) {
+    score -= 10;
+    reasons.push("Being proactive in managing your health can reduce the burden of treatment");
+    alternate.push("Take an active role in your healthcare by communicating with your providers, seeking support, and making informed decisions about your treatment");
+  }
+  if (lifestyle.includes("adaptable")) {
+    score -= 10;
+    reasons.push("Adaptability can help you adjust to treatment changes and reduce stress");
+    alternate.push("Cultivate adaptability by being open to change and finding new ways to manage your treatment as needed");
+  }
+  if (lifestyle.includes("optimistic")) {
+    score -= 10;
+    reasons.push("Optimism can improve treatment adherence and outcomes");
+    alternate.push("Focus on the positive aspects of your treatment journey and maintain hope for a successful outcome to help improve your overall well-being");
+  }
+  if (lifestyle.includes("supportive")) {
+    score -= 10;
+    reasons.push("Having a supportive network can reduce the burden of treatment");
+    alternate.push("Seek support from family, friends, or support groups to help manage treatment and provide emotional support");
+  }
+  if (lifestyle.includes("balanced")) {
+    score -= 10;
+    reasons.push("A balanced lifestyle can improve treatment adherence and outcomes");
+    alternate.push("Strive for a balanced lifestyle that includes healthy habits, social connections, and enjoyable activities to support your treatment and overall well-being");
+  }
+  if (lifestyle.includes("mindful")) {
+    score -= 10;
+    reasons.push("Mindfulness can help reduce stress and improve treatment adherence");
+    alternate.push("Practice mindfulness techniques such as meditation, deep breathing, or yoga to help manage stress and improve your overall well-being while undergoing treatment");
+  }
+  if (lifestyle.includes("engaged")) {
+    score -= 10;
+    reasons.push("Engagement in social and recreational activities can improve quality of life and reduce treatment burden");
+    alternate.push("Plan social and recreational activities that you enjoy to maintain a sense of normalcy and improve your overall well-being while managing your treatment");
+  }
+  if (lifestyle.includes("resilient")) {
+    score -= 10;
+    reasons.push("Resilience can help you cope with the challenges of treatment and improve outcomes");
+    alternate.push("Develop resilience through stress-reduction techniques, seeking support, and maintaining a positive outlook to better manage the challenges of treatment");
+  }
+  if (lifestyle.includes("compliant")) {
+    score -= 10;
+    reasons.push("Compliance with treatment can reduce the burden and improve outcomes");
+    alternate.push("Use reminders, support systems, and positive reinforcement to maintain compliance with your treatment plan");
+  }
+  if (lifestyle.includes("motivated")) {
+    score -= 10;
+    reasons.push("Motivation can improve treatment adherence and outcomes");
+    alternate.push("Set achievable goals and celebrate small victories to maintain motivation throughout your treatment journey");
+  }
+  if (lifestyle.includes("informed")) {
+    score -= 10;
+    reasons.push("Being informed about your condition and treatment can reduce anxiety and improve adherence");
+    alternate.push("Educate yourself about your condition and treatment options to feel more empowered and in control of your health");
+  }
+  if (lifestyle.includes("proactive")) {
+    score -= 10;
+    reasons.push("Being proactive in managing your health can reduce the burden of treatment");
+    alternate.push("Take an active role in your healthcare by communicating with your providers, seeking support, and making informed decisions about your treatment");
+  }
+  if (lifestyle.includes("adaptable")) {
+    score -= 10;
+    reasons.push("Adaptability can help you adjust to treatment changes and reduce stress");
+    alternate.push("Cultivate adaptability by being open to change and finding new ways to manage your treatment as needed");
+  }
+  if (lifestyle.includes("optimistic")) {
+    score -= 10;
+    reasons.push("Optimism can improve treatment adherence and outcomes");
+    alternate.push("Focus on the positive aspects of your treatment journey and maintain hope for a successful outcome to help improve your overall well-being");
+  }
+  if (lifestyle.includes("supportive")) {
+    score -= 10;
+    reasons.push("Having a supportive network can reduce the burden of treatment");
+    alternate.push("Seek support from family, friends, or support groups to help manage treatment and provide emotional support");
+  }
+
+
+  // =========================
+  // 📊 NORMALIZE SCORE
+  // =========================
+  if (score < 0) score = 0;
+  if (score > 100) score = 100;
+
+  // =========================
+  // 🚦 LEVEL
+  // =========================
+  let level = "Low";
+  if (score >= 70) level = "High";
+  else if (score >= 40) level = "Moderate";
+
+  // =========================
+  // 🎯 UPDATE UI
+  // =========================
+  // Show the results section
+  document.getElementById("resultsSection").style.display = "block";
+  
+  document.querySelector(".text-6xl").innerText = score;
+  document.querySelector(".px-4").innerText = level + " Burden";
+  document.querySelector(".bg-gradient-to-r").style.width = score + "%";
+
+  // Reasons
+  let list = document.querySelector("ul");
+  list.innerHTML = "";
+  reasons.forEach(r => {
+    let li = document.createElement("li");
+    li.innerHTML = `<p>${r}</p>`;
+    list.appendChild(li);
+  });
+
+  // =========================
+  // 💊 ALTERNATE TREATMENT
+  // =========================
+  let altBox = document.getElementById("alternate-treatment");
+  altBox.innerHTML = "";
+
+  alternate.forEach(a => {
+    let p = document.createElement("p");
+    p.innerText = "• " + a;
+    altBox.appendChild(p);
+  });
+
+});
+// =========================
+// 🧠 SMART ANALYSIS ADD-ON
+// =========================
+
+// Extra insights
+if (score >= 70) {
+  reasons.push("Your treatment plan is quite intensive and may feel overwhelming");
+  reasons.push("Consider seeking support from family or caregivers to assist with treatment management");
+  alternate.push("Try simplifying your routine step by step with your doctor");
+  alternate.push("Use reminders and support systems to improve adherence and reduce stress");
+}
+
+if (score >= 40 && score < 70) {
+  reasons.push("Your treatment is manageable but may need better organization");
+  reasons.push("Consistency is key to improving outcomes");
+  alternate.push("Use reminders to stay consistent with medication and routine");
+  alternate.push("Consider joining a support group for individuals with similar conditions to share tips and encouragement");
+}
+
+if (score < 40) {
+  reasons.push("Your treatment is relatively easy to manage");
+  reasons.push("Maintaining a positive outlook can further improve your experience");
+  alternate.push("Maintain your current routine consistently");
+  alternate.push("Engage in activities that promote a positive mindset, such as hobbies, social interactions, or mindfulness practices");
+}
+
+// =========================
+// 💊 ADVANCED TREATMENT ANALYSIS
+// =========================
+
+if (treatment.includes("multiple") || treatment.includes("many")) {
+  alternate.push("Ask your doctor about combining medicines into fewer doses");
+  alternate.push("Set fixed times daily to avoid missing doses");
+}
+
+if (treatment.includes("surgery")) {
+  alternate.push("Follow post-surgery care instructions strictly");
+  alternate.push("Ensure proper follow-up visits for recovery");
+}
+
+if (treatment.includes("injection")) {
+  alternate.push("Learn proper technique to reduce discomfort");
+  alternate.push("Ask if oral alternatives are possible");
+}
+if (treatment.includes("frequent")) {
+  alternate.push("Use a calendar or app to track treatment schedule");
+  alternate.push("Set alarms as reminders for treatment times");
+}
+if (treatment.includes("long-term")) {
+  alternate.push("Break long-term goals into smaller milestones");
+  alternate.push("Celebrate small victories to stay motivated");
+}
+if (treatment.includes("intensive")) {
+  alternate.push("Prioritize self-care and rest to manage fatigue");
+  alternate.push("Seek support from family or caregivers to assist with treatment management");
+}
+if (treatment.includes("complex")) {
+  alternate.push("Use a pill organizer to keep track of medications");
+  alternate.push("Create a treatment schedule to stay organized");
+}
+if (treatment.includes("strict")) {
+  alternate.push("Work with your doctor to find a balance that allows some flexibility");
+  alternate.push("Use positive reinforcement to stay motivated with strict protocols");
+}
+if (treatment.includes("daily")) {
+  alternate.push("Incorporate treatment into your daily routine for better adherence");
+  alternate.push("Use a habit tracker to maintain consistency");
+}
+if (treatment.includes("long-term") || treatment.includes("chronic")) {
+  alternate.push("Set realistic expectations for long-term management");
+  alternate.push("Seek support from family or caregivers to assist with ongoing treatment");
+}
+if (treatment.includes("high-risk")) {
+  alternate.push("Work closely with your healthcare team to monitor for side effects");
+  alternate.push("Consider lifestyle changes that may reduce the need for high-risk treatments");
+}
+if (treatment.includes("hospitalization")) {
+  alternate.push("Plan for hospital stays by arranging support at home");
+  alternate.push("Communicate with your healthcare team about discharge planning to ensure a smooth transition back home");
+}
+if (treatment.includes("side effects")) {
+  alternate.push("Report side effects to your doctor promptly for management");
+  alternate.push("Use supportive care measures to alleviate side effects at home");
+}
+if (treatment.includes("monitoring")) {
+  alternate.push("Use home monitoring devices to reduce clinic visits");
+  alternate.push("Keep a symptom diary to track changes and share with your doctor");
+}
+if (treatment.includes("rehabilitation")) {
+  alternate.push("Incorporate recommended exercises into your daily routine");
+  alternate.push("Seek support from family or caregivers to assist with rehabilitation efforts");
+}
+if (treatment.includes("lifestyle changes")) {
+  alternate.push("Start with small, manageable lifestyle changes");
+  alternate.push("Seek support from family or caregivers to assist with lifestyle modifications");
+}
+if (treatment.includes("dietary restrictions")) {
+  alternate.push("Work with a dietitian to find enjoyable and sustainable dietary options");
+  alternate.push("Plan meals ahead to ensure compliance with dietary restrictions");
+}
+if (treatment.includes("physical therapy")) {
+  alternate.push("Incorporate home exercises recommended by your physical therapist");
+  alternate.push("Seek support from family or caregivers to assist with physical therapy sessions");
+}
+if (treatment.includes("psychological therapy")) {
+  alternate.push("Consider online therapy options for more flexible scheduling");
+  alternate.push("Engage in self-help techniques recommended by your therapist to supplement sessions");
+}
+if (treatment.includes("medication")) {
+  alternate.push("Use a medication management app to track your medications and set reminders");
+  alternate.push("Communicate with your doctor about any difficulties with medication adherence for potential adjustments");
+}
+
+
+
+// =========================
+// 🧘 LIFESTYLE IMPROVEMENT
+// =========================
+
+if (lifestyle.includes("strict")) {
+  alternate.push("Start with small changes instead of strict rules");
+  alternate.push("Gradually adjust your routine for better consistency");
+}
+
+if (lifestyle.includes("daily")) {
+  alternate.push("Plan your day to include treatment time easily");
+  alternate.push("Break tasks into smaller steps to reduce stress");
+}
+if (lifestyle.includes("exercise")) {
+  alternate.push("Choose enjoyable physical activities to stay motivated");
+  alternate.push("Incorporate short bouts of activity throughout the day");
+}
+if (lifestyle.includes("diet")) {
+  alternate.push("Work with a dietitian to find enjoyable and sustainable dietary options");
+  alternate.push("Plan meals ahead to ensure compliance with dietary needs");
+}
+if  (lifestyle.includes("stress")) {
+  alternate.push("Practice stress-reduction techniques like meditation, yoga, or deep breathing exercises");
+  alternate.push("Seek support from friends, family, or support groups to help manage stress");
+}
+if (lifestyle.includes("work")) {
+  alternate.push("Communicate with your employer about your health needs");
+  alternate.push("Explore flexible work arrangements if possible to reduce stress");
+}
+if (lifestyle.includes("social")) {
+  alternate.push("Plan social activities around your treatment schedule");
+  alternate.push("Maintain social connections to support emotional well-being");
+}
+if (lifestyle.includes("sleep")) {
+  alternate.push("Establish a regular sleep schedule");
+  alternate.push("Create a relaxing bedtime routine to improve sleep quality");
+}
+if (lifestyle.includes("hygiene")) {
+  alternate.push("Maintain good personal hygiene practices");
+  alternate.push("Use reminders to stay consistent with hygiene routines");
+}
+if (lifestyle.includes("support")) {
+  alternate.push("Seek support from family, friends, or support groups");
+  alternate.push("Communicate openly about your needs to receive the best support possible");
+}
+if (lifestyle.includes("positive")) {
+  alternate.push("Engage in activities that promote a positive mindset, such as hobbies, social interactions, or mindfulness practices");
+  alternate.push("Focus on the positive aspects of your treatment journey to maintain hope and motivation");
+}
+if (lifestyle.includes("healthy")) {
+  alternate.push("Continue to maintain healthy habits such as balanced nutrition, regular physical activity, and adequate sleep");
+  alternate.push("Seek guidance from healthcare professionals to optimize your healthy lifestyle choices in support of your treatment");
+}
+if (lifestyle.includes("active")) {
+  alternate.push("Incorporate regular physical activity that you enjoy");
+  alternate.push("Find ways to stay active that fit your lifestyle and treatment needs");
+}
+if (lifestyle.includes("engaged")) {
+  alternate.push("Plan social and recreational activities that you enjoy");
+  alternate.push("Maintain a sense of normalcy and improve your overall well-being while managing your treatment");
+}
+if (lifestyle.includes("resilient")) {
+  alternate.push("Develop resilience through stress-reduction techniques, seeking support, and maintaining a positive outlook");
+  alternate.push("Focus on building coping skills to better manage the challenges of treatment");
+}
+if (lifestyle.includes("compliant")) {
+  alternate.push("Use reminders, support systems, and positive reinforcement to maintain compliance with your treatment plan");
+  alternate.push("Communicate with your healthcare provider about any challenges with compliance for potential adjustments");
+}
+if (lifestyle.includes("motivated")) {
+  alternate.push("Set achievable goals and celebrate small victories to maintain motivation");
+  alternate.push("Seek support from friends, family, or support groups to help stay motivated throughout your treatment journey");
+}
+if (lifestyle.includes("informed")) {
+  alternate.push("Educate yourself about your condition and treatment options");
+  alternate.push("Communicate with your healthcare provider to stay informed and empowered in managing your health");
+}
+if (lifestyle.includes("proactive")) {
+  alternate.push("Take an active role in your healthcare by communicating with your providers, seeking support, and making informed decisions about your treatment");
+  alternate.push("Stay engaged with your healthcare team to proactively manage your condition and treatment");
+}
+if (lifestyle.includes("adaptable")) {
+  alternate.push("Cultivate adaptability by being open to change and finding new ways to manage your treatment as needed");
+  alternate.push("Work with your healthcare provider to adjust your treatment plan as needed to better fit your lifestyle and needs");
+}
+if (lifestyle.includes("optimistic")) {
+  alternate.push("Focus on the positive aspects of your treatment journey and maintain hope for a successful outcome");
+  alternate.push("Engage in activities that promote a positive mindset to help improve your overall well-being while undergoing treatment");
+}
+if (lifestyle.includes("supportive")) {
+  alternate.push("Seek support from family, friends, or support groups to help manage treatment and provide emotional support");
+  alternate.push("Communicate openly about your needs to receive the best support possible");
+}
+if (lifestyle.includes("balanced")) {
+  alternate.push("Strive for a balanced lifestyle that includes healthy habits, social connections, and enjoyable activities");
+  alternate.push("Work with your healthcare provider to find a balance that supports your treatment and overall well-being");
+}
+if (lifestyle.includes("mindful")) {
+  alternate.push("Practice mindfulness techniques such as meditation, deep breathing, or yoga");
+  alternate.push("Incorporate mindfulness into your daily routine to help manage stress and improve your overall well-being while undergoing treatment");
+}
+if (lifestyle.includes("engaged")) {
+  alternate.push("Plan social and recreational activities that you enjoy");
+  alternate.push("Maintain a sense of normalcy and improve your overall well-being while managing your treatment");
+}
+if (lifestyle.includes("resilient")) {
+  alternate.push("Develop resilience through stress-reduction techniques, seeking support, and maintaining a positive outlook");
+  alternate.push("Focus on building coping skills to better manage the challenges of treatment");
+}
+if (lifestyle.includes("compliant")) {
+  alternate.push("Use reminders, support systems, and positive reinforcement to maintain compliance with your treatment plan");
+  alternate.push("Communicate with your healthcare provider about any challenges with compliance for potential adjustments");
+}
+if (lifestyle.includes("motivated")) {
+  alternate.push("Set achievable goals and celebrate small victories to maintain motivation");
+  alternate.push("Seek support from friends, family, or support groups to help stay motivated throughout your treatment journey");
+}
+function printReport() {
+  window.print();
+}
+</script>
+</body></html>

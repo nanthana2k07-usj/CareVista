@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CareVista - Smart Health Monitoring</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f6f8ff;
+color:#1e293b;
+overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+header{
+position:fixed;
+top:0;
+left:0;
+right:0;
+padding:16px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,0.8);
+backdrop-filter:blur(14px);
+border-bottom:1px solid rgba(0,0,0,0.05);
+z-index:1000;
+}
+
+/* FLOATING HERO IMAGE */
+
+.hero-img img{
+width:100%;
+border-radius:20px;
+box-shadow:0 25px 50px rgba(0,0,0,0.15);
+animation:floatImage 6s ease-in-out infinite;
+}
+
+@keyframes floatImage{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-20px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
+}
+
+
+.hero-img img{
+width:100%;
+border-radius:20px;
+box-shadow:0 25px 60px rgba(99,102,241,0.35);
+animation:floatImage 6s ease-in-out infinite;
+transition:0.4s;
+}
+
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:700;
+font-size:24px;
+color:#6366f1;
+}
+
+nav{
+display:flex;
+gap:35px;
+}
+
+nav a{
+text-decoration:none;
+color:#475569;
+font-weight:500;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#6366f1;
+}
+
+.login-btn{
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+border:none;
+color:white;
+padding:10px 28px;
+border-radius:30px;
+font-weight:500;
+box-shadow:0 10px 20px rgba(99,102,241,0.3);
+transition:0.3s;
+}
+
+.login-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 25px rgba(99,102,241,0.4);
+}
+
+/* HERO */
+
+.hero{
+padding-top:160px;
+padding-bottom:120px;
+}
+
+.hero h1{
+font-size:56px;
+font-weight:700;
+line-height:1.2;
+margin-bottom:20px;
+}
+
+.hero span{
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+font-size:18px;
+color:#64748b;
+margin-bottom:35px;
+}
+
+.primary-btn{
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+border:none;
+color:white;
+padding:16px 34px;
+border-radius:14px;
+font-weight:500;
+box-shadow:0 10px 20px rgba(99,102,241,0.3);
+transition:0.3s;
+}
+
+.primary-btn:hover{
+transform:translateY(-3px);
+}
+
+.secondary-btn{
+background:white;
+border:1px solid #e2e8f0;
+padding:16px 34px;
+border-radius:14px;
+font-weight:500;
+}
+
+.hero-img img{
+width:100%;
+border-radius:20px;
+box-shadow:0 25px 50px rgba(0,0,0,0.15);
+}
+
+/* FEATURES */
+
+.features{
+padding:120px 40px;
+text-align:center;
+}
+
+.features h2{
+font-size:36px;
+margin-bottom:60px;
+font-weight:700;
+}
+
+.feature-card{
+background:white;
+padding:40px;
+border-radius:18px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+transition:0.3s;
+height:100%;
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+box-shadow:0 25px 45px rgba(0,0,0,0.12);
+}
+
+.feature-card i{
+font-size:40px;
+color:#6366f1;
+margin-bottom:15px;
+}
+
+/* ABOUT */
+
+.about{
+padding:120px 40px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+}
+
+.stat{
+background:rgba(255,255,255,0.15);
+padding:25px;
+border-radius:14px;
+text-align:center;
+backdrop-filter:blur(12px);
+transition:0.3s;
+}
+
+.stat:hover{
+transform:translateY(-5px);
+}
+
+.stat i{
+font-size:28px;
+margin-bottom:10px;
+}
+
+/* CTA */
+
+.cta{
+padding:120px 40px;
+text-align:center;
+}
+
+.cta h2{
+font-size:42px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.cta p{
+color:#64748b;
+margin-bottom:40px;
+}
+
+.cta button{
+padding:18px 42px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+border:none;
+color:white;
+border-radius:14px;
+font-size:18px;
+font-weight:500;
+box-shadow:0 12px 25px rgba(99,102,241,0.3);
+}
+
+/* FOOTER */
+
+footer{
+background:#0f172a;
+color:#94a3b8;
+text-align:center;
+padding:40px;
+}
+
+/* ANIMATION */
+
+.fade-up{
+opacity:0;
+transform:translateY(40px);
+transition:all 0.8s ease;
+}
+
+.fade-up.show{
+opacity:1;
+transform:translateY(0);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<i class="fa-solid fa-heart-pulse"></i>
+CareVista
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#features">Features</a>
+<a href="#about">About</a>
+</nav>
+
+<button class="login-btn" onclick="goToLogin()">
+<i class="fa-solid fa-right-to-bracket"></i> Login
+</button>
+
+</header>
+
+<section class="hero container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-6 fade-up">
+
+<h1>Smart Health Monitoring <span>with AI</span></h1>
+
+<p>
+CareVista helps patients and healthcare providers track treatment burden,
+monitor health trends and predict potential risks using intelligent AI analytics.
+</p>
+
+<div class="d-flex gap-3">
+
+<button class="primary-btn" onclick="goToLogin()">
+<i class="fa-solid fa-user"></i> Login to Get Started
+</button>
+
+<button class="secondary-btn">
+<i class="fa-solid fa-circle-info"></i> Learn More
+</button>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 hero-img fade-up">
+
+<img src="https://i.pinimg.com/736x/53/df/8b/53df8b6293fd360c1a5556644c18ea6a.jpg" alt="Health Monitoring Illustration">
+
+</div>
+
+</div>
+
+</section>
+
+<section class="features" id="features">
+
+<div class="container">
+
+<h2>Powerful Features</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4 fade-up">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-brain"></i>
+<h3>AI Health Risk Prediction</h3>
+<p>Predict health risks using advanced machine learning models.</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4 fade-up">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-chart-line"></i>
+<h3>Treatment Burden Index</h3>
+<p>Monitor treatment complexity and patient workload.</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4 fade-up">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-chart-area"></i>
+<h3>Health Trend Visualization</h3>
+<p>Interactive graphs showing patient health improvements.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="about" id="about">
+
+<div class="container">
+
+<div class="row align-items-center g-5">
+
+<div class="col-lg-6 fade-up">
+
+<h2>About CareVista</h2>
+
+<p>
+CareVista is an AI-powered healthcare monitoring platform designed to help
+patients and doctors track treatment burden and health outcomes using
+machine learning insights.
+</p>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="row g-3">
+
+<div class="col-6 fade-up">
+<div class="stat">
+<i class="fa-solid fa-heart"></i>
+<h3>99%</h3>
+<p>Uptime</p>
+</div>
+</div>
+
+<div class="col-6 fade-up">
+<div class="stat">
+<i class="fa-solid fa-user"></i>
+<h3>15K+</h3>
+<p>Patients</p>
+</div>
+</div>
+
+<div class="col-6 fade-up">
+<div class="stat">
+<i class="fa-solid fa-hospital"></i>
+<h3>500+</h3>
+<p>Clinics</p>
+</div>
+</div>
+
+<div class="col-6 fade-up">
+<div class="stat">
+<i class="fa-solid fa-robot"></i>
+<h3>AI</h3>
+<p>Enhanced</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="cta">
+
+<div class="container fade-up">
+
+<h2>Ready to improve your health tracking?</h2>
+
+<p>Join thousands using CareVista to monitor health smarter.</p>
+
+<button onclick="goToLogin()">
+<i class="fa-solid fa-arrow-right"></i> Login to Continue
+</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<i class="fa-solid fa-heart-pulse"></i> CareVista AI — Smart Healthcare Monitoring System
+
+</footer>
+
+<script>
+
+function goToLogin(){
+window.location.href="/login";
+}
+
+/* SCROLL ANIMATION */
+
+const elements=document.querySelectorAll(".fade-up")
+
+window.addEventListener("scroll",()=>{
+
+elements.forEach(el=>{
+
+const position=el.getBoundingClientRect().top
+const screenHeight=window.innerHeight
+
+if(position < screenHeight-100){
+el.classList.add("show")
+}
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
